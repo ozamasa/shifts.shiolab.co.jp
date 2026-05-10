@@ -603,11 +603,12 @@ def build_dataset(dataset_key: str, cfg: dict[str, Any], force_download: bool = 
             "row_count": len(records),
             "output": cfg["output"],
             "year_range": {
-                "min": min(r["year"] for r in records) if records else None,
-                "max": max(r["year"] for r in records) if records else None,
+                "min": min((row["year"] for row in records), default=None),
+                "max": max((row["year"] for row in records), default=None),
             },
             "source": cache_info,
         }
+
 
     if cfg.get("type") == "row_filter_table":
         if not cfg.get("enabled", True):

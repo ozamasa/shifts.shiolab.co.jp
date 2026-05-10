@@ -556,6 +556,38 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:32px 20px}
         background: rgba(255,255,255,.92);
     }
 
+
+/* Category label instead of STEP number */
+.step-kicker {
+  position: sticky;
+  top: 86px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  margin: 0;
+  writing-mode: horizontal-tb;
+}
+.step-kicker::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  border-radius: 999px;
+  background: #2563eb;
+}
+@media (max-width: 800px) {
+  .step-kicker {
+    position: static;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1049,9 +1081,9 @@ async function main(){
     const detail=sortByPriority(step.sections.filter(s=>s.storyRole!=='primary'));
     return`<section class="story-step" id="${slugStep(step.no,step.title)}">
       <div class="step-lead">
-        <div class="step-kicker">STEP ${step.no}</div>
+        <div class="step-kicker">${shortStepLabel(step)}</div>
         <div>
-          ${step.no === 5 ? `` : ``}<div class="chapter-label">${shortStepLabel(step)}</div>
+          ${step.no === 5 ? `` : ``}
           <h2>${step.title}</h2>
           ${step.lead?`<p>${step.lead}</p>`:''}
           ${step.conclusion?`<div class="step-conclusion">${step.conclusion}</div>`:''}

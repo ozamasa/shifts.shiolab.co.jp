@@ -584,9 +584,9 @@
     "id": "finance_expenditure_purpose_ratio",
     "group": "財政",
     "groupDescription": "行政サービスや投資規模の変化を見ます。",
-    "title": "歳出の内訳はどう変わったか",
+    "title": "財政は何を支えるようになったか",
     "description": "一般会計歳出当初予算額を目的別に分け、民生費・教育費・土木費・公債費などの構成比を表示しています。",
-    "highlight": "財政規模だけではなく、何にお金を使う自治体になっているのかを見るための中心グラフです。民生費や教育費は、人口構造と重ねて読むと背景が見えやすくなります。",
+    "highlight": "目的別歳出は「何を支えているか」を見るためのグラフです。民生費や教育費は、人口構造と重ねて読むと背景が見えやすくなります。",
     "insights": [
       "民生費は高齢化や福祉需要と関係しやすい項目です。",
       "教育費は子ども人口や学校規模の変化とあわせて見ると意味が出ます。",
@@ -634,7 +634,7 @@
       }
     },
     "view": "primary",
-    "priority": 5,
+    "priority": 1,
     "timeline": true,
     "storyStep": 6,
     "storyRole": "primary",
@@ -676,16 +676,16 @@
       "教育費や土木費は、人口変化だけでは説明できない場合があります。",
       "このグラフは、以降の補助グラフを読むための入口です。"
     ],
-    "focusQuestion": "塩尻市は、何にお金を使う自治体へ変わってきたのか？"
+    "focusQuestion": "行政は、何にお金を使う自治体へ変わってきたのか？"
   },
   {
     "id": "finance_expenditure_nature_ratio",
     "group": "財政",
     "groupDescription": "行政サービスや投資規模の変化を見ます。",
-    "title": "財政は「建設」から「支える」方向へ変化している",
+    "title": "財政はどう使われるようになったか",
     "description": "普通建設事業費・扶助費・人件費・公債費の構成比を表示しています。",
-    "highlight": "高度成長期には建設投資の割合が大きく、近年は扶助費の割合が上昇しています。",
-    "focusQuestion": "財政の使い方は、建設中心から生活を支える方向へ変わっているのか？",
+    "highlight": "性質別歳出は「どう使っているか」を見るためのグラフです。普通建設事業費と扶助費を並べると、都市の成長段階や支え方の変化が見えやすくなります。",
+    "focusQuestion": "支出の性質は、建設中心から生活を支える方向へ変わっているのか？",
     "readingHints": [
       "普通建設事業費は、道路・施設など都市基盤整備の時期に大きくなりやすい項目です。",
       "扶助費は、福祉や生活支援など、社会保障に近い支出と関係します。",
@@ -731,7 +731,7 @@
       }
     },
     "view": "primary",
-    "priority": 8,
+    "priority": 2,
     "timeline": true,
     "storyStep": 6,
     "storyRole": "primary",
@@ -751,68 +751,6 @@
         "description": "支える側の背景を見る"
       }
     ]
-  },
-  {
-    "id": "finance_expenditure_purpose_amount",
-    "group": "財政",
-    "groupDescription": "行政サービスや投資規模の変化を見ます。",
-    "title": "目的別歳出額を見る",
-    "description": "民生費・教育費・土木費・公債費などの歳出額を表示しています。",
-    "highlight": "構成比だけでなく、金額としてどの項目が大きくなっているかを確認できます。",
-    "insights": [
-      "構成比が横ばいでも、財政規模が拡大していれば金額は増加します。",
-      "比率と金額を分けて見ることで、財政構造の変化を読みやすくなります。"
-    ],
-    "note": "一般会計歳出当初予算額の目的別金額です。主要項目のみ表示しています。",
-    "dataFile": "finance_expenditure_purpose.json",
-    "datasets": [
-      {
-        "label": "民生費",
-        "field": "welfare_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "教育費",
-        "field": "education_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "土木費",
-        "field": "civil_engineering_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "公債費",
-        "field": "debt_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "総務費",
-        "field": "general_affairs_amount",
-        "axis": "y",
-        "unit": "千円"
-      }
-    ],
-    "axes": {
-      "y": {
-        "label": "金額（千円）",
-        "beginAtZero": false
-      }
-    },
-    "view": "detail",
-    "priority": 15,
-    "timeline": false,
-    "storyStep": 6,
-    "storyRole": "detail",
-    "eventGroups": [
-      "財政"
-    ],
-    "mayorBands": true,
-    "focusQuestion": "金額で見ると、どの歳出が大きくなっているか？"
   },
   {
     "id": "elderly_population_vs_welfare",
@@ -854,7 +792,7 @@
       }
     },
     "view": "detail",
-    "priority": 18,
+    "priority": 3,
     "timeline": false,
     "storyStep": 6,
     "storyRole": "detail",
@@ -935,7 +873,7 @@
       }
     },
     "view": "detail",
-    "priority": 19,
+    "priority": 4,
     "timeline": false,
     "storyStep": 6,
     "storyRole": "detail",
@@ -975,6 +913,68 @@
       "施設更新や教育環境整備など、固定的な支出も存在します。"
     ],
     "focusQuestion": "子どもが減っても、教育費は同じように減るのか？"
+  },
+  {
+    "id": "finance_expenditure_purpose_amount",
+    "group": "財政",
+    "groupDescription": "行政サービスや投資規模の変化を見ます。",
+    "title": "目的別歳出額を見る",
+    "description": "民生費・教育費・土木費・公債費などの歳出額を表示しています。",
+    "highlight": "構成比だけでなく、金額としてどの項目が大きくなっているかを確認できます。",
+    "insights": [
+      "構成比が横ばいでも、財政規模が拡大していれば金額は増加します。",
+      "比率と金額を分けて見ることで、財政構造の変化を読みやすくなります。"
+    ],
+    "note": "一般会計歳出当初予算額の目的別金額です。主要項目のみ表示しています。",
+    "dataFile": "finance_expenditure_purpose.json",
+    "datasets": [
+      {
+        "label": "民生費",
+        "field": "welfare_amount",
+        "axis": "y",
+        "unit": "千円"
+      },
+      {
+        "label": "教育費",
+        "field": "education_amount",
+        "axis": "y",
+        "unit": "千円"
+      },
+      {
+        "label": "土木費",
+        "field": "civil_engineering_amount",
+        "axis": "y",
+        "unit": "千円"
+      },
+      {
+        "label": "公債費",
+        "field": "debt_amount",
+        "axis": "y",
+        "unit": "千円"
+      },
+      {
+        "label": "総務費",
+        "field": "general_affairs_amount",
+        "axis": "y",
+        "unit": "千円"
+      }
+    ],
+    "axes": {
+      "y": {
+        "label": "金額（千円）",
+        "beginAtZero": false
+      }
+    },
+    "view": "detail",
+    "priority": 5,
+    "timeline": false,
+    "storyStep": 6,
+    "storyRole": "detail",
+    "eventGroups": [
+      "財政"
+    ],
+    "mayorBands": true,
+    "focusQuestion": "金額で見ると、どの歳出が大きくなっているか？"
   },
   {
     "id": "finance_summary",
@@ -1021,7 +1021,7 @@
       }
     },
     "view": "detail",
-    "priority": 30,
+    "priority": 6,
     "highlight": "財政規模だけでなく、人口で割った1人あたり歳出を見ることで、行政規模の重みが分かります。",
     "timeline": false,
     "storyStep": 6,
@@ -1031,43 +1031,6 @@
     ],
     "mayorBands": true,
     "focusQuestion": "歳入・歳出の規模そのものはどう変わったか？"
-  },
-  {
-    "id": "finance_balance",
-    "group": "財政",
-    "groupDescription": "行政サービスや投資規模の変化を見ます。",
-    "title": "歳入歳出差額を見る",
-    "description": "歳入決算額から歳出決算額を差し引いた差額です。",
-    "insights": [
-      "黒字幅の変化を見ることで、年度ごとの財政余力の推移を確認できます。",
-      "年度によって差額が大きく変動していることがわかります。"
-    ],
-    "note": "歳入決算額 − 歳出決算額で算出しています。",
-    "dataFile": "finance_summary.json",
-    "datasets": [
-      {
-        "label": "歳入歳出差額",
-        "field": "balance",
-        "axis": "y",
-        "unit": "千円"
-      }
-    ],
-    "axes": {
-      "y": {
-        "label": "差額（千円）",
-        "beginAtZero": true
-      }
-    },
-    "view": "detail",
-    "priority": 40,
-    "timeline": false,
-    "storyStep": 6,
-    "storyRole": "detail",
-    "eventGroups": [
-      "財政"
-    ],
-    "mayorBands": true,
-    "focusQuestion": "年度ごとの財政余力はどう揺れているか？"
   },
   {
     "id": "finance_per_person",
@@ -1097,7 +1060,7 @@
       }
     },
     "view": "detail",
-    "priority": 50,
+    "priority": 7,
     "timeline": false,
     "storyStep": 6,
     "storyRole": "detail",
@@ -1117,6 +1080,43 @@
       "行政サービスの効率化だけでは説明できない面もあります。"
     ],
     "focusQuestion": "人口規模で割ると、行政コストはどう見えるか？"
+  },
+  {
+    "id": "finance_balance",
+    "group": "財政",
+    "groupDescription": "行政サービスや投資規模の変化を見ます。",
+    "title": "歳入歳出差額を見る",
+    "description": "歳入決算額から歳出決算額を差し引いた差額です。",
+    "insights": [
+      "黒字幅の変化を見ることで、年度ごとの財政余力の推移を確認できます。",
+      "年度によって差額が大きく変動していることがわかります。"
+    ],
+    "note": "歳入決算額 − 歳出決算額で算出しています。",
+    "dataFile": "finance_summary.json",
+    "datasets": [
+      {
+        "label": "歳入歳出差額",
+        "field": "balance",
+        "axis": "y",
+        "unit": "千円"
+      }
+    ],
+    "axes": {
+      "y": {
+        "label": "差額（千円）",
+        "beginAtZero": true
+      }
+    },
+    "view": "detail",
+    "priority": 8,
+    "timeline": false,
+    "storyStep": 6,
+    "storyRole": "detail",
+    "eventGroups": [
+      "財政"
+    ],
+    "mayorBands": true,
+    "focusQuestion": "年度ごとの財政余力はどう揺れているか？"
   },
   {
     "id": "vehicle_total",
