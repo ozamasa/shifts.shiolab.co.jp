@@ -46,7 +46,23 @@
     "eventGroups": [
       "人口・世帯"
     ],
-    "mayorBands": false
+    "mayorBands": false,
+    "milestones": [
+      {
+        "year": 2005,
+        "label": "人口ピーク付近",
+        "description": "人口増加が一段落し、横ばいから微減へ移る時期です。"
+      },
+      {
+        "year": 2020,
+        "label": "世帯増は継続",
+        "description": "人口は伸びにくい一方で、世帯数は増加しています。"
+      }
+    ],
+    "readingHints": [
+      "人口が大きく変わらなくても、世帯数は増える場合があります。",
+      "単身世帯や核家族化など、暮らし方の変化も背景にあります。"
+    ]
   },
   {
     "id": "people_per_household",
@@ -139,7 +155,26 @@
       "年齢構成",
       "人口・世帯"
     ],
-    "mayorBands": false
+    "mayorBands": false,
+    "milestones": [
+      {
+        "year": 2000,
+        "label": "高齢化20%前後",
+        "description": "65歳以上割合が大きく存在感を増し始める時期です。"
+      },
+      {
+        "year": 2020,
+        "label": "高齢化が進行",
+        "description": "年齢構成の変化がはっきり見える時期です。"
+      }
+    ],
+    "relatedLinks": [
+      {
+        "label": "民生費との関係を見る",
+        "targetSection": "elderly_population_vs_welfare",
+        "description": "高齢化と財政を重ねる"
+      }
+    ]
   },
   {
     "id": "age_groups",
@@ -235,7 +270,26 @@
       "教育",
       "年齢構成"
     ],
-    "mayorBands": false
+    "mayorBands": false,
+    "milestones": [
+      {
+        "year": 1985,
+        "label": "児童数の山",
+        "description": "小学校児童数が高い水準にあった時期です。"
+      },
+      {
+        "year": 2020,
+        "label": "学校規模縮小",
+        "description": "小中学校ともに規模縮小が見えます。"
+      }
+    ],
+    "relatedLinks": [
+      {
+        "label": "教育費との関係を見る",
+        "targetSection": "young_population_vs_education_spending",
+        "description": "子ども人口と教育費を見る"
+      }
+    ]
   },
   {
     "id": "young_population_vs_elementary",
@@ -333,7 +387,19 @@
     "eventGroups": [
       "産業"
     ],
-    "mayorBands": true
+    "mayorBands": true,
+    "milestones": [
+      {
+        "year": 1991,
+        "label": "バブル後",
+        "description": "景気環境の変化を読む節目です。"
+      },
+      {
+        "year": 2009,
+        "label": "金融危機後",
+        "description": "リーマンショック後の地域経済を見る節目です。"
+      }
+    ]
   },
   {
     "id": "employees_per_business",
@@ -432,7 +498,40 @@
     "eventGroups": [
       "財政"
     ],
-    "mayorBands": true
+    "mayorBands": true,
+    "milestones": [
+      {
+        "year": 1995,
+        "label": "民生費に注目",
+        "description": "福祉関連支出の構成比を意識して見る節目です。"
+      },
+      {
+        "year": 2010,
+        "label": "支出構造の変化",
+        "description": "目的別歳出の内訳が変化していることを確認する時期です。"
+      },
+      {
+        "year": 2020,
+        "label": "コロナ期",
+        "description": "社会情勢の変化が財政にも表れやすい時期です。"
+      }
+    ],
+    "relatedLinks": [
+      {
+        "label": "年齢のバランスを見る",
+        "targetStep": 2,
+        "description": "民生費の背景を見る"
+      },
+      {
+        "label": "子どもと学校を見る",
+        "targetStep": 3,
+        "description": "教育費の背景を見る"
+      }
+    ],
+    "readingHints": [
+      "民生費の増加は、高齢化だけでなく制度変更の影響も受けます。",
+      "教育費や土木費は、人口変化だけでは説明できない場合があります。"
+    ]
   },
   {
     "id": "finance_expenditure_purpose_amount",
@@ -544,7 +643,35 @@
       "年齢構成"
     ],
     "mayorBands": true,
-    "spanGaps": true
+    "spanGaps": true,
+    "milestones": [
+      {
+        "year": 2000,
+        "label": "高齢者増",
+        "description": "65歳以上人口の増加と民生費の動きを重ねて見る節目です。"
+      },
+      {
+        "year": 2015,
+        "label": "民生費拡大",
+        "description": "高齢化と福祉関連支出の関係を確認する時期です。"
+      }
+    ],
+    "relatedLinks": [
+      {
+        "label": "年齢のバランスを見る",
+        "targetStep": 2,
+        "description": "高齢者人口を確認する"
+      },
+      {
+        "label": "歳出の内訳を見る",
+        "targetSection": "finance_expenditure_purpose_ratio",
+        "description": "民生費の位置づけを見る"
+      }
+    ],
+    "readingHints": [
+      "高齢者人口の増加は、福祉需要の増加と関係しやすい指標です。",
+      "ただし制度変更や支援対象拡大も民生費へ影響します。"
+    ]
   },
   {
     "id": "young_population_vs_education_spending",
@@ -597,7 +724,35 @@
       "年齢構成"
     ],
     "mayorBands": true,
-    "spanGaps": true
+    "spanGaps": true,
+    "milestones": [
+      {
+        "year": 2000,
+        "label": "子ども減少",
+        "description": "子ども人口の減少と教育費の動きを重ねて見る節目です。"
+      },
+      {
+        "year": 2015,
+        "label": "教育費のズレ",
+        "description": "子ども人口と教育費が単純に連動しないことを確認する時期です。"
+      }
+    ],
+    "relatedLinks": [
+      {
+        "label": "子どもと学校を見る",
+        "targetStep": 3,
+        "description": "学校規模の変化を見る"
+      },
+      {
+        "label": "年齢のバランスを見る",
+        "targetStep": 2,
+        "description": "15歳未満人口を見る"
+      }
+    ],
+    "readingHints": [
+      "子ども人口が減っても、教育費が同じように減るとは限りません。",
+      "施設更新や教育環境整備など、固定的な支出も存在します。"
+    ]
   },
   {
     "id": "finance_summary",
@@ -725,7 +880,18 @@
     "eventGroups": [
       "財政"
     ],
-    "mayorBands": true
+    "mayorBands": true,
+    "relatedLinks": [
+      {
+        "label": "暮らしの単位を見る",
+        "targetStep": 1,
+        "description": "人口・世帯の変化を見る"
+      }
+    ],
+    "readingHints": [
+      "人口減少下では、財政規模が維持されるだけでも1人あたり負担は上昇します。",
+      "行政サービスの効率化だけでは説明できない面もあります。"
+    ]
   },
   {
     "id": "vehicle_total",
@@ -774,7 +940,23 @@
     "eventGroups": [
       "暮らし・交通"
     ],
-    "mayorBands": false
+    "mayorBands": false,
+    "milestones": [
+      {
+        "year": 2019,
+        "label": "二輪車集計注意",
+        "description": "令和元年度から軽二輪車が未調査になっています。"
+      },
+      {
+        "year": 2024,
+        "label": "車保有は維持",
+        "description": "人口が大きく増えなくても自動車保有は維持されています。"
+      }
+    ],
+    "readingHints": [
+      "人口が横ばいでも、自動車依存が続くと保有台数は維持されます。",
+      "公共交通だけではなく、生活圏の広がりも背景にあります。"
+    ]
   },
   {
     "id": "kei_ratio",
