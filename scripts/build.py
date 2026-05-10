@@ -13,11 +13,12 @@ from typing import Any, Callable
 import requests
 import yaml
 import xlrd
+from openpyxl import load_workbook
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = PROJECT_ROOT / "config" / "datasets.yml"
 METADATA_PATH = PROJECT_ROOT / "public" / "data" / "metadata.json"
-SUPPORTED_DATASET_TYPES = {"table_by_columns", "row_blocks_by_year"}
+SUPPORTED_DATASET_TYPES = {"table_by_columns", "row_blocks_by_year", "row_filter_table"}
 SUPPORTED_COLUMN_TYPES = {"raw", "text", "year", "int", "float", "number"}
 
 ValidationHandler = Callable[[str, list[dict[str, Any]], dict[str, Any]], list[str]]
@@ -111,6 +112,87 @@ def convert_value(value: Any, value_type: str | None) -> Any:
         return normalize_number(value)
     raise ValueError(f"unknown column type: {value_type}")
 
+
+# --- row_filter_table helpers ---
+def excel_col_to_index(col):
+    col = str(col).strip().upper()
+    n = 0
+    for ch in col:
+        if "A" <= ch <= "Z":
+            n = n * 26 + (ord(ch) - ord("A") + 1)
+    return n - 1
+
+
+def parse_year_cell(value):
+    if value in (None, "", "***"):
+        return None
+    m = re.search(r"(\d{4})", str(value))
+    if m:
+        return int(m.group(1))
+    try:
+        return int(float(value))
+    except Exception:
+        return None
+
+
+def cast_cell(value, value_type):
+    if value in (None, "", "***"):
+        return None
+    if value_type == "year":
+        return parse_year_cell(value)
+    if value_type == "int":
+        try:
+            return int(float(value))
+        except Exception:
+            return None
+    if value_type == "float":
+        try:
+            return float(value)
+        except Exception:
+            return None
+    return value
+
+
+def read_excel_rows(path, sheet_name):
+    path = Path(path)
+    if path.suffix.lower() == ".xlsx":
+        workbook = load_workbook(path, data_only=True)
+        worksheet = workbook[sheet_name]
+        return [list(row) for row in worksheet.iter_rows(values_only=True)]
+
+    book = xlrd.open_workbook(str(path))
+    sheet = book.sheet_by_name(sheet_name)
+    return [sheet.row_values(i) for i in range(sheet.nrows)]
+
+
+def build_row_filter_table_records(cfg):
+    rows = read_excel_rows(cfg["cache_path"], cfg["sheet"])
+    start_row = int(cfg.get("data_start_row", 1)) - 1
+
+    filter_cfg = cfg.get("filter", {})
+    filter_col = excel_col_to_index(filter_cfg["column"]) if filter_cfg.get("column") else None
+    filter_value = str(filter_cfg.get("equals", "")).strip()
+
+    records = []
+    for row in rows[start_row:]:
+        if filter_col is not None:
+            cell = row[filter_col] if filter_col < len(row) else None
+            if str(cell).strip() != filter_value:
+                continue
+
+        item = {}
+        for key, col_cfg in cfg.get("columns", {}).items():
+            idx = excel_col_to_index(col_cfg["column"])
+            value = row[idx] if idx < len(row) else None
+            item[key] = cast_cell(value, col_cfg.get("type", "str"))
+
+        if item.get("year") is not None:
+            records.append(item)
+
+    records.sort(key=lambda r: r["year"])
+    return records
+# --- end row_filter_table helpers ---
+
 def validate_dataset_config(dataset_key: str, cfg: dict[str, Any]) -> None:
     if not cfg.get("enabled", True):
         return
@@ -120,8 +202,6 @@ def validate_dataset_config(dataset_key: str, cfg: dict[str, Any]) -> None:
         raise ValueError(f"{dataset_key}: required config fields are missing: {missing}")
     if cfg["type"] not in SUPPORTED_DATASET_TYPES:
         raise ValueError(f"{dataset_key}: unsupported type: {cfg['type']}")
-    if not isinstance(cfg["columns"], dict) or "year" not in cfg["columns"]:
-        raise ValueError(f"{dataset_key}: columns must include year")
     columns_cfg = normalize_columns_config(cfg["columns"])
     for field, spec in columns_cfg.items():
         if "column" not in spec:
@@ -411,6 +491,35 @@ def write_json(path: Path, data: Any) -> None:
 
 def build_dataset(dataset_key: str, cfg: dict[str, Any], force_download: bool = False) -> dict[str, Any]:
     validate_dataset_config(dataset_key, cfg)
+
+    if cfg.get("type") == "row_filter_table":
+        if not cfg.get("enabled", True):
+            return {"dataset": dataset_key, "enabled": False, "skipped": True}
+
+        source_meta = download_source(dataset_key, cfg, force=force_download)
+        cfg["cache_path"] = PROJECT_ROOT / cfg["cache_file"]
+
+        records = build_row_filter_table_records(cfg)
+        validation_errors = validate_rows(dataset_key, records, cfg.get("validations", []))
+        if validation_errors:
+            message = "\n".join(validation_errors[:30])
+            more = "" if len(validation_errors) <= 30 else f"\n... and {len(validation_errors) - 30} more"
+            raise ValueError(f"Validation failed for {dataset_key}:\n{message}{more}")
+
+        output_path = PROJECT_ROOT / cfg["output"]
+        write_json(output_path, records)
+        years = [row.get("year") for row in records if row.get("year") is not None]
+        return {
+            "dataset": dataset_key,
+            "enabled": True,
+            "source_name": cfg.get("source_name"),
+            **source_meta,
+            "generated_at": now_iso(),
+            "output": str(output_path.relative_to(PROJECT_ROOT)),
+            "row_count": len(records),
+            "years": {"min": min(years) if years else None, "max": max(years) if years else None},
+        }
+
     if not cfg.get("enabled", True):
         return {"dataset": dataset_key, "enabled": False, "skipped": True}
     source_meta = download_source(dataset_key, cfg, force=force_download)

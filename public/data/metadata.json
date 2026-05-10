@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-05-08T09:13:32+09:00",
+  "generated_at": "2026-05-10T14:43:32+09:00",
   "datasets": {
-    "finance_summary": {
-      "dataset": "finance_summary",
+    "population_dynamics": {
+      "dataset": "population_dynamics",
       "enabled": true,
-      "source_name": "塩尻市 普通会計収支状況",
-      "source_url": "https://www.city.shiojiri.lg.jp/uploaded/attachment/40334.xls",
-      "cache_file": "cache/finance_summary.xls",
-      "downloaded_at": "2026-05-08T09:13:33+09:00",
+      "source_name": "塩尻市 月別人口動態",
+      "source_url": "https://www.city.shiojiri.lg.jp/uploaded/attachment/40117.xlsx",
+      "cache_file": "cache/population_dynamics.xlsx",
+      "downloaded_at": "2026-05-10T14:43:32+09:00",
       "used_cached_file": false,
-      "last_modified": "Mon, 02 Mar 2026 03:45:10 GMT",
-      "etag": "\"a800-64c0269e33dd7\"",
-      "content_length": "43008",
-      "sha256": "6dede9bf6a7a030986b70de4149967262eb28b2a2cde4677166e1b693c22ea6f",
-      "generated_at": "2026-05-08T09:13:33+09:00",
-      "output": "public/data/finance_summary.json",
-      "row_count": 63,
+      "last_modified": "Mon, 02 Mar 2026 03:45:09 GMT",
+      "etag": "\"12320-64c0269d82dd9\"",
+      "content_length": null,
+      "sha256": "f3bd43d76ed99bdfca752398a5ff25a9b541f37f6922d64e4b297ea57200e6a2",
+      "generated_at": "2026-05-10T14:43:32+09:00",
+      "output": "public/data/population_dynamics.json",
+      "row_count": 55,
       "years": {
-        "min": 1959,
-        "max": 2024
+        "min": 1971,
+        "max": 2025
       }
     }
   }

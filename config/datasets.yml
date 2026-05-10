@@ -419,3 +419,26 @@ finance_expenditure_purpose:
       field: year
 
   output: "public/data/finance_expenditure_purpose.json"
+
+population_dynamics:
+  enabled: true
+  type: row_filter_table
+  source_name: "塩尻市 月別人口動態"
+  source_url: "https://www.city.shiojiri.lg.jp/uploaded/attachment/40117.xlsx"
+  cache_file: "cache/population_dynamics.xlsx"
+  sheet: "2-27"
+  data_start_row: 6
+  filter:
+    column: "C"
+    equals: "合計"
+  columns:
+    year: { column: "B", type: year }
+    household_change: { column: "D", type: int }
+    population_change: { column: "E", type: int }
+    births: { column: "F", type: int }
+    deaths: { column: "G", type: int }
+    natural_change: { column: "H", type: int }
+    move_in: { column: "I", type: int }
+    move_out: { column: "J", type: int }
+    social_change: { column: "K", type: int }
+  output: "public/data/population_dynamics.json"

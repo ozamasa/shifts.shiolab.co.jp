@@ -227,6 +227,149 @@
     "mayorBands": false
   },
   {
+    "id": "population_dynamics_natural",
+    "group": "人口動態",
+    "groupDescription": "人口増減の内訳を、出生・死亡・転入・転出から見ます。",
+    "title": "出生・死亡と自然増減を見る",
+    "description": "月別人口動態の各年合計行から、出生数・死亡数・自然増減を表示しています。",
+    "highlight": "人口が増えたか減ったかだけでなく、出生と死亡の差を見ることで、人口変化の土台が分かります。",
+    "focusQuestion": "人口の変化は、出生と死亡だけでどこまで説明できるのか？",
+    "readingHints": [
+      "出生数と死亡数の差が自然増減です。",
+      "自然増減がマイナスでも、転入超過があれば人口全体は支えられる場合があります。"
+    ],
+    "insights": [
+      "出生数と死亡数を重ねることで、自然増減の背景が見えます。",
+      "子ども人口や学校規模の変化を見る前提になります。"
+    ],
+    "note": "月別人口動態のうち、各年の「合計」行のみを使用しています。",
+    "dataFile": "population_dynamics.json",
+    "datasets": [
+      {
+        "label": "出生",
+        "field": "births",
+        "axis": "y",
+        "unit": "人"
+      },
+      {
+        "label": "死亡",
+        "field": "deaths",
+        "axis": "y",
+        "unit": "人"
+      },
+      {
+        "label": "自然増減",
+        "field": "natural_change",
+        "axis": "y1",
+        "unit": "人"
+      }
+    ],
+    "axes": {
+      "y": {
+        "label": "出生・死亡（人）",
+        "beginAtZero": false
+      },
+      "y1": {
+        "label": "自然増減（人）",
+        "position": "right",
+        "beginAtZero": false
+      }
+    },
+    "view": "primary",
+    "priority": 10,
+    "timeline": true,
+    "storyStep": 3,
+    "storyRole": "primary",
+    "eventGroups": [
+      "人口・世帯",
+      "年齢構成"
+    ],
+    "mayorBands": false,
+    "relatedLinks": [
+      {
+        "label": "年齢のバランスを見る",
+        "targetStep": 2,
+        "description": "高齢化との関係を見る"
+      },
+      {
+        "label": "子どもと学校を見る",
+        "targetStep": 4,
+        "description": "出生の先にある学校規模を見る"
+      }
+    ]
+  },
+  {
+    "id": "population_dynamics_social",
+    "group": "人口動態",
+    "groupDescription": "人口増減の内訳を、出生・死亡・転入・転出から見ます。",
+    "title": "転入・転出と社会増減を見る",
+    "description": "月別人口動態の各年合計行から、転入数・転出数・社会増減を表示しています。",
+    "highlight": "自然増減だけでなく、転入・転出による社会増減を見ることで、人口が支えられている時期が分かります。",
+    "focusQuestion": "人口の横ばいは、転入によって支えられているのか？",
+    "readingHints": [
+      "転入が転出を上回ると、社会増になります。",
+      "自然減の時期でも、社会増が大きいと人口減少が緩やかになる場合があります。"
+    ],
+    "insights": [
+      "転入・転出は、住宅、働く場、交通などの地域条件とも関係します。",
+      "人口の見かけの増減だけでは見えない、まちの流動性を確認できます。"
+    ],
+    "note": "月別人口動態のうち、各年の「合計」行のみを使用しています。",
+    "dataFile": "population_dynamics.json",
+    "datasets": [
+      {
+        "label": "転入",
+        "field": "move_in",
+        "axis": "y",
+        "unit": "人"
+      },
+      {
+        "label": "転出",
+        "field": "move_out",
+        "axis": "y",
+        "unit": "人"
+      },
+      {
+        "label": "社会増減",
+        "field": "social_change",
+        "axis": "y1",
+        "unit": "人"
+      }
+    ],
+    "axes": {
+      "y": {
+        "label": "転入・転出（人）",
+        "beginAtZero": false
+      },
+      "y1": {
+        "label": "社会増減（人）",
+        "position": "right",
+        "beginAtZero": false
+      }
+    },
+    "view": "detail",
+    "priority": 20,
+    "timeline": false,
+    "storyStep": 3,
+    "storyRole": "detail",
+    "eventGroups": [
+      "人口・世帯"
+    ],
+    "mayorBands": false,
+    "relatedLinks": [
+      {
+        "label": "働く場を見る",
+        "targetStep": 5,
+        "description": "転入・転出の背景を考える"
+      },
+      {
+        "label": "暮らしの基盤を見る",
+        "targetStep": 7,
+        "description": "車社会との関係を見る"
+      }
+    ]
+  },
+  {
     "id": "elementary_vs_junior_high",
     "group": "教育",
     "groupDescription": "子どもの数の変化が、学校規模にどう表れるかを見ます。",
@@ -264,7 +407,7 @@
     "priority": 10,
     "highlight": "小学校の変化を数年後に追うように、中学校の規模にも変化が現れます。",
     "timeline": true,
-    "storyStep": 3,
+    "storyStep": 4,
     "storyRole": "primary",
     "eventGroups": [
       "教育",
@@ -333,7 +476,7 @@
     "view": "detail",
     "priority": 20,
     "timeline": false,
-    "storyStep": 3,
+    "storyStep": 4,
     "storyRole": "detail",
     "eventGroups": [
       "教育",
@@ -382,7 +525,7 @@
     "priority": 10,
     "highlight": "事業所数と従業者数を同時に見ることで、地域経済の規模と働く場の変化が読み取れます。",
     "timeline": true,
-    "storyStep": 4,
+    "storyStep": 5,
     "storyRole": "primary",
     "eventGroups": [
       "産業"
@@ -430,7 +573,7 @@
     "view": "detail",
     "priority": 20,
     "timeline": false,
-    "storyStep": 4,
+    "storyStep": 5,
     "storyRole": "detail",
     "eventGroups": [
       "産業"
@@ -443,7 +586,7 @@
     "groupDescription": "行政サービスや投資規模の変化を見ます。",
     "title": "歳出の内訳はどう変わったか",
     "description": "一般会計歳出当初予算額を目的別に分け、民生費・教育費・土木費・公債費などの構成比を表示しています。",
-    "highlight": "財政規模だけではなく、何にお金を使う自治体になっているのかを見るための中心グラフです。民生費や教育費は、人口構造と重ねて見ると背景が読みやすくなります。",
+    "highlight": "財政規模だけではなく、何にお金を使う自治体になっているのかを見るための中心グラフです。民生費や教育費は、人口構造と重ねて読むと背景が見えやすくなります。",
     "insights": [
       "民生費は高齢化や福祉需要と関係しやすい項目です。",
       "教育費は子ども人口や学校規模の変化とあわせて見ると意味が出ます。",
@@ -493,7 +636,7 @@
     "view": "primary",
     "priority": 5,
     "timeline": true,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "primary",
     "eventGroups": [
       "財政"
@@ -529,9 +672,11 @@
       }
     ],
     "readingHints": [
-      "民生費の増加は、高齢化だけでなく制度変更の影響も受けます。",
-      "教育費や土木費は、人口変化だけでは説明できない場合があります。"
-    ]
+      "民生費の増加は、高齢化だけでなく制度変更や支援対象の拡大にも影響されます。",
+      "教育費や土木費は、人口変化だけでは説明できない場合があります。",
+      "このグラフは、以降の補助グラフを読むための入口です。"
+    ],
+    "focusQuestion": "塩尻市は、何にお金を使う自治体へ変わってきたのか？"
   },
   {
     "id": "finance_expenditure_purpose_amount",
@@ -587,12 +732,13 @@
     "view": "detail",
     "priority": 15,
     "timeline": false,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "detail",
     "eventGroups": [
       "財政"
     ],
-    "mayorBands": true
+    "mayorBands": true,
+    "focusQuestion": "金額で見ると、どの歳出が大きくなっているか？"
   },
   {
     "id": "elderly_population_vs_welfare",
@@ -636,7 +782,7 @@
     "view": "detail",
     "priority": 18,
     "timeline": false,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "detail",
     "eventGroups": [
       "財政",
@@ -671,7 +817,8 @@
     "readingHints": [
       "高齢者人口の増加は、福祉需要の増加と関係しやすい指標です。",
       "ただし制度変更や支援対象拡大も民生費へ影響します。"
-    ]
+    ],
+    "focusQuestion": "民生費の増加は、高齢化とどのように重なって見えるか？"
   },
   {
     "id": "young_population_vs_education_spending",
@@ -716,7 +863,7 @@
     "view": "detail",
     "priority": 19,
     "timeline": false,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "detail",
     "eventGroups": [
       "財政",
@@ -752,7 +899,8 @@
     "readingHints": [
       "子ども人口が減っても、教育費が同じように減るとは限りません。",
       "施設更新や教育環境整備など、固定的な支出も存在します。"
-    ]
+    ],
+    "focusQuestion": "子どもが減っても、教育費は同じように減るのか？"
   },
   {
     "id": "finance_summary",
@@ -802,12 +950,13 @@
     "priority": 30,
     "highlight": "財政規模だけでなく、人口で割った1人あたり歳出を見ることで、行政規模の重みが分かります。",
     "timeline": false,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "detail",
     "eventGroups": [
       "財政"
     ],
-    "mayorBands": true
+    "mayorBands": true,
+    "focusQuestion": "歳入・歳出の規模そのものはどう変わったか？"
   },
   {
     "id": "finance_balance",
@@ -838,12 +987,13 @@
     "view": "detail",
     "priority": 40,
     "timeline": false,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "detail",
     "eventGroups": [
       "財政"
     ],
-    "mayorBands": true
+    "mayorBands": true,
+    "focusQuestion": "年度ごとの財政余力はどう揺れているか？"
   },
   {
     "id": "finance_per_person",
@@ -875,7 +1025,7 @@
     "view": "detail",
     "priority": 50,
     "timeline": false,
-    "storyStep": 5,
+    "storyStep": 6,
     "storyRole": "detail",
     "eventGroups": [
       "財政"
@@ -891,7 +1041,8 @@
     "readingHints": [
       "人口減少下では、財政規模が維持されるだけでも1人あたり負担は上昇します。",
       "行政サービスの効率化だけでは説明できない面もあります。"
-    ]
+    ],
+    "focusQuestion": "人口規模で割ると、行政コストはどう見えるか？"
   },
   {
     "id": "vehicle_total",
@@ -935,7 +1086,7 @@
       }
     },
     "timeline": true,
-    "storyStep": 6,
+    "storyStep": 7,
     "storyRole": "primary",
     "eventGroups": [
       "暮らし・交通"
@@ -989,7 +1140,7 @@
       }
     },
     "timeline": false,
-    "storyStep": 6,
+    "storyStep": 7,
     "storyRole": "detail",
     "eventGroups": [
       "暮らし・交通"

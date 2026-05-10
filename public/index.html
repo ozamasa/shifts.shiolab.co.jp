@@ -494,6 +494,68 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:32px 20px}
   }
 }
 
+
+/* Finance focus treatment */
+.story-step.finance-focus{
+  background:linear-gradient(180deg, rgba(255,251,235,.92), rgba(255,255,255,.88));
+  border-color:#fcd34d;
+}
+.story-step.finance-focus .step-kicker{
+  color:#b45309;
+}
+.story-step.finance-focus .step-kicker::after{
+  background:#f59e0b;
+}
+.story-step.finance-focus .step-conclusion{
+  border-left-color:#f59e0b;
+  background:#fffbeb;
+}
+.finance-focus-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:10px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:#fef3c7;
+  color:#92400e;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+.focus-question{
+  margin:12px 0 14px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#111827;
+  color:#fff;
+  font-size:14px;
+  font-weight:800;
+}
+.finance-focus .chart-card.primary{
+  border-color:#f59e0b;
+  box-shadow:0 14px 36px rgba(245,158,11,.12);
+}
+@media(max-width:800px){
+  .focus-question{
+    font-size:13px;
+    padding:10px 12px;
+  }
+  .finance-focus-badge{
+    font-size:11px;
+  }
+}
+
+
+    .story-step.final-step {
+        background: linear-gradient(180deg, rgba(255,248,240,.92), rgba(255,252,248,.96));
+        border-color: #f3d9bf;
+    }
+
+    .story-step.final-step .step-conclusion {
+        background: rgba(255,255,255,.92);
+    }
+
 </style>
 </head>
 <body>
@@ -502,7 +564,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:32px 20px}
     <div class="hero-main">
       <div class="hero-eyebrow">SHIOJIRI DATA STORY</div>
       <h1>塩尻市の構造変化を読む</h1>
-      <p>人口・年齢・学校・産業・財政・暮らしの変化を、財政構造につながる流れとして読み解きます。</p>
+      <p>人口・年齢・人口動態・学校・産業・暮らしの変化をたどりながら、最後に財政構造へつなげて読み解きます。</p>
     </div>
   </section>
 </header>
@@ -874,6 +936,12 @@ function readingHints(section) {
     </div>`;
 }
 
+
+function focusQuestion(section) {
+    if (!section.focusQuestion) return '';
+    return `<div class="focus-question">${section.focusQuestion}</div>`;
+}
+
 function renderChartSection(s, timelineEvents, mayors=[], primary=false){
   const id=`chart-${s.id}`;
   const ins=s.insights?.length?`<div class="insights"><ul>${s.insights.map(i=>`<li>${i}</li>`).join('')}</ul></div>`:'';
@@ -881,7 +949,7 @@ function renderChartSection(s, timelineEvents, mayors=[], primary=false){
   const hi=s.highlight?`<div class="highlight">${s.highlight}</div>`:'';
   const events = eventExplain(s, timelineEvents);
   const mayorBands = mayorLegend(s, mayors);
-  return`<section class="chart-card ${primary?'primary':''}"><h3>${s.title}</h3><p class="description">${s.description}</p>${hi}<div class="chart-wrap"><canvas id="${id}"></canvas></div>${typeof milestoneList === 'function' ? milestoneList(s) : ''}${mayorBands}${events}${typeof readingHints === 'function' ? readingHints(s) : ''}${ins}${note}</section>`
+  return`<section class="chart-card ${primary?'primary':''}"><h3>${s.title}</h3><p class="description">${s.description}</p>${typeof focusQuestion === 'function' ? focusQuestion(s) : ''}${hi}<div class="chart-wrap"><canvas id="${id}"></canvas></div>${typeof milestoneList === 'function' ? milestoneList(s) : ''}${mayorBands}${events}${typeof readingHints === 'function' ? readingHints(s) : ''}${ins}${note}</section>`
 }
 
 function makeScales(s){
@@ -983,7 +1051,7 @@ async function main(){
       <div class="step-lead">
         <div class="step-kicker">STEP ${step.no}</div>
         <div>
-          <div class="chapter-label">${shortStepLabel(step)}</div>
+          ${step.no === 5 ? `` : ``}<div class="chapter-label">${shortStepLabel(step)}</div>
           <h2>${step.title}</h2>
           ${step.lead?`<p>${step.lead}</p>`:''}
           ${step.conclusion?`<div class="step-conclusion">${step.conclusion}</div>`:''}
