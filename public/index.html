@@ -588,6 +588,46 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:32px 20px}
   }
 }
 
+
+.summary-card-section {
+  padding: 22px 24px;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, .06);
+  margin-bottom: 18px;
+}
+.summary-card-section h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+.summary-card-section .description {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.summary-card-section .summary-points {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+.summary-card-section .summary-point {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f8fbff;
+  border-left: 4px solid var(--accent);
+  color: #1f2937;
+  font-size: 14px;
+}
+
+
+.story-step:last-of-type{
+  background:linear-gradient(180deg, rgba(255,255,255,.82), rgba(248,251,255,.96));
+}
+.story-step:last-of-type .summary-card-section{
+  border-color:#c7d2fe;
+}
+
 </style>
 </head>
 <body>
@@ -974,7 +1014,33 @@ function focusQuestion(section) {
     return `<div class="focus-question">${section.focusQuestion}</div>`;
 }
 
-function renderChartSection(s, timelineEvents, mayors=[], primary=false){
+
+function renderSummaryCard(s) {
+    const hi = s.highlight ? `<div class="highlight">${s.highlight}</div>` : '';
+    const question = typeof focusQuestion === 'function' ? focusQuestion(s) : '';
+    const hints = s.readingHints?.length
+        ? `<div class="summary-points">${s.readingHints.map(h => `<div class="summary-point">${h}</div>`).join('')}</div>`
+        : '';
+    const related = typeof relatedLinks === 'function' ? relatedLinks(s) : '';
+    const ins = s.insights?.length
+        ? `<div class="insights"><ul>${s.insights.map(i => `<li>${i}</li>`).join('')}</ul></div>`
+        : '';
+    const note = s.note ? `<div class="note">注：${s.note}</div>` : '';
+
+    return `<section class="summary-card-section" id="${typeof sectionAnchor === 'function' ? sectionAnchor(s.id) : `section-${s.id}`}">
+      <h3>${s.title}</h3>
+      <p class="description">${s.description || ''}</p>
+      ${question}
+      ${hi}
+      ${hints}
+      ${related}
+      ${ins}
+      ${note}
+    </section>`;
+}
+
+    function renderChartSection(s, timelineEvents, mayors=[], primary=false){
+  if(s.layout==='summaryCard')return renderSummaryCard(s);
   const id=`chart-${s.id}`;
   const ins=s.insights?.length?`<div class="insights"><ul>${s.insights.map(i=>`<li>${i}</li>`).join('')}</ul></div>`:'';
   const note=s.note?`<div class="note">注：${s.note}</div>`:'';
@@ -996,19 +1062,26 @@ function mapByYear(rows){const m=new Map();if(Array.isArray(rows))rows.forEach(r
 
 function buildSingle(s,m){
   const rows=m[s.dataFile]||[];
-  return{labels:rows.map(r=>r.year),datasets:s.datasets.map(d=>({label:d.label,data:rows.map(r=>calcValue(r,d)),yAxisID:d.axis||'y',unit:d.unit||'',tension:.25,fill:s.chartType==='stackedArea',spanGaps:!!s.spanGaps,pointRadius:s.spanGaps?3:undefined,spanGaps:!!s.spanGaps,pointRadius:s.spanGaps?3:undefined}))}
+  const datasetDefs=Array.isArray(s.datasets)?s.datasets:[];
+  return{labels:rows.map(r=>r.year),datasets:datasetDefs.map(d=>({label:d.label,data:rows.map(r=>calcValue(r,d)),yAxisID:d.axis||'y',unit:d.unit||'',tension:.25,fill:s.chartType==='stackedArea',spanGaps:!!s.spanGaps,pointRadius:s.spanGaps?3:undefined}))}
 }
 
 function buildMulti(s,m){
-  const years=[...new Set(s.sources.flatMap(src=>(m[src.dataFile]||[]).map(r=>r.year)))].sort((a,b)=>a-b);
-  return{labels:years,datasets:s.sources.map(src=>{const mp=mapByYear(m[src.dataFile]||[]);return{label:src.label,data:years.map(y=>calcValue(mp.get(y),src)),yAxisID:src.axis||'y',unit:src.unit||'',tension:.25,fill:s.chartType==='stackedArea',spanGaps:!!s.spanGaps,pointRadius:s.spanGaps?3:undefined,spanGaps:!!s.spanGaps,pointRadius:s.spanGaps?3:undefined}})}
+  const sourceDefs=Array.isArray(s.sources)?s.sources:[];
+  const years=[...new Set(sourceDefs.flatMap(src=>(m[src.dataFile]||[]).map(r=>r.year)))].sort((a,b)=>a-b);
+  return{labels:years,datasets:sourceDefs.map(src=>{const mp=mapByYear(m[src.dataFile]||[]);return{label:src.label,data:years.map(y=>calcValue(mp.get(y),src)),yAxisID:src.axis||'y',unit:src.unit||'',tension:.25,fill:s.chartType==='stackedArea',spanGaps:!!s.spanGaps,pointRadius:s.spanGaps?3:undefined}})}
 }
 
 function drawChart(s,m,timelineEvents,mayors=[]){
+  if(s.layout==='summaryCard')return;
+  if(!s.dataFile&&!Array.isArray(s.sources))return;
+  if(!Array.isArray(s.datasets)&&!Array.isArray(s.sources))return;
   const data=Array.isArray(s.sources)?buildMulti(s,m):buildSingle(s,m);
-  if(!data.labels.length)return;
+  if(!data.labels.length||!data.datasets.length)return;
+  const canvas=document.getElementById(`chart-${s.id}`);
+  if(!canvas)return;
   const sectionEvents = s.timeline ? eventsForSection(timelineEvents, s) : [];
-  new Chart(document.getElementById(`chart-${s.id}`),{
+  new Chart(canvas,{
     type:'line',
     data,
     options:{
@@ -1096,7 +1169,7 @@ async function main(){
     </section>`
   }).join('');
 
-  sections.forEach(s=>drawChart(s,dataMap,timelineEvents,mayors))
+  sections.filter(s=>s.layout!=='summaryCard').forEach(s=>drawChart(s,dataMap,timelineEvents,mayors))
 }
 
 main().catch(e=>{

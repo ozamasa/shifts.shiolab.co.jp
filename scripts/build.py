@@ -198,6 +198,29 @@ def build_row_filter_table_records(cfg):
 def validate_dataset_config(dataset_key: str, cfg: dict[str, Any]) -> None:
     if not cfg.get("enabled", True):
         return
+    if cfg.get("type") == "custom_finance_revenue_structure":
+        required = ["type", "source_url", "cache_file", "sheet", "output"]
+        missing = [field for field in required if field not in cfg]
+        if missing:
+            raise ValueError(f"{dataset_key}: required config fields are missing: {missing}")
+        return
+
+
+    if cfg.get("type") == "custom_finance_revenue_structure":
+        cache_info = download_source(dataset_key, cfg, force_download)
+        records = build_finance_revenue_structure_records(cfg, cache_info)
+        write_records(cfg["output"], records)
+        return {
+            "dataset": dataset_key,
+            "row_count": len(records),
+            "output": cfg["output"],
+            "year_range": {
+                "min": min((row["year"] for row in records), default=None),
+                "max": max((row["year"] for row in records), default=None),
+            },
+            "source": cache_info,
+        }
+
     if cfg.get("type") == "custom_finance_expenditure_nature":
         required = ["type", "source_url", "cache_file", "sheet", "output"]
         missing = [field for field in required if field not in cfg]
@@ -591,6 +614,69 @@ def write_records(output_path: str, records: list[dict[str, Any]]) -> None:
     )
 
 
+
+
+def build_finance_revenue_structure_records(cfg: dict[str, Any], cache_info: dict[str, Any]) -> list[dict[str, Any]]:
+    cache_path = PROJECT_ROOT / cache_info["cache_file"]
+    book = xlrd.open_workbook(str(cache_path))
+
+    target = cfg.get("sheet", "15-4【歳入】")
+    matched = None
+    for name in book.sheet_names():
+        if name.strip() == target.strip():
+            matched = name
+            break
+
+    if matched is None:
+        raise ValueError(f"sheet not found: {target}")
+
+    sheet = book.sheet_by_name(matched)
+
+    import re
+
+    def parse_year(value):
+        m = re.search(r"(\d{4})", str(value))
+        return int(m.group(1)) if m else None
+
+    def to_float(v):
+        if v in ("", None, "***"):
+            return None
+        try:
+            return float(v)
+        except Exception:
+            return None
+
+    grouped = {}
+
+    mapping = {
+        "地方税": ("tax_ratio", "tax_amount"),
+        "市税": ("tax_ratio", "tax_amount"),
+        "地方交付税": ("grant_ratio", "grant_amount"),
+        "国庫支出金": ("national_ratio", "national_amount"),
+        "地方債": ("bond_ratio", "bond_amount"),
+        "市債": ("bond_ratio", "bond_amount"),
+        "歳入合計": ("total_ratio", "total_amount"),
+    }
+
+    for row_index in range(4, sheet.nrows):
+        row = sheet.row_values(row_index)
+
+        year = parse_year(row[1])
+        category = str(row[2]).strip()
+
+        if not year:
+            continue
+
+        grouped.setdefault(year, {"year": year})
+
+        if category in mapping:
+            ratio_key, amount_key = mapping[category]
+            grouped[year][amount_key] = to_float(row[3])
+            grouped[year][ratio_key] = to_float(row[4])
+
+    return sorted(grouped.values(), key=lambda r: r["year"])
+
+
 def build_dataset(dataset_key: str, cfg: dict[str, Any], force_download: bool = False) -> dict[str, Any]:
     validate_dataset_config(dataset_key, cfg)
 
@@ -646,6 +732,24 @@ def build_dataset(dataset_key: str, cfg: dict[str, Any], force_download: bool = 
         rows = read_table_by_columns(dataset_key, cfg)
     elif data_type == "row_blocks_by_year":
         rows = read_row_blocks_by_year(dataset_key, cfg)
+    elif data_type == "custom_finance_revenue_structure":
+        records = build_finance_revenue_structure_records(cfg, source_meta)
+        output_path = PROJECT_ROOT / cfg["output"]
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(
+            json.dumps(records, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        years = [row.get("year") for row in records if row.get("year") is not None]
+        return {
+            "dataset": dataset_key,
+            "source_name": cfg.get("source_name"),
+            **source_meta,
+            "generated_at": now_iso(),
+            "output": str(output_path.relative_to(PROJECT_ROOT)),
+            "row_count": len(records),
+            "years": {"min": min(years) if years else None, "max": max(years) if years else None},
+        }
     else:
         raise ValueError(f"{dataset_key}: 未対応の type: {data_type}")
     validation_errors = validate_rows(dataset_key, rows, cfg.get("validations", []))

@@ -451,3 +451,13 @@ finance_expenditure_nature:
   cache_file: "cache/finance_expenditure_nature.xls"
   sheet: "15-4【歳出】"
   output: "public/data/finance_expenditure_nature.json"
+
+
+finance_revenue_structure:
+  enabled: true
+  type: custom_finance_revenue_structure
+  source_name: "塩尻市 普通会計性質別歳入内訳"
+  source_url: "https://www.city.shiojiri.lg.jp/uploaded/attachment/40337.xls"
+  cache_file: "cache/finance_revenue_structure.xls"
+  sheet: "15-4【歳入】"
+  output: "public/data/finance_revenue_structure.json"

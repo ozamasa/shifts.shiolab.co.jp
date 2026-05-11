@@ -167,13 +167,6 @@
         "label": "高齢化が進行",
         "description": "年齢構成の変化がはっきり見える時期です。"
       }
-    ],
-    "relatedLinks": [
-      {
-        "label": "民生費との関係を見る",
-        "targetSection": "elderly_population_vs_welfare",
-        "description": "高齢化と財政を重ねる"
-      }
     ]
   },
   {
@@ -284,19 +277,7 @@
       "人口・世帯",
       "年齢構成"
     ],
-    "mayorBands": false,
-    "relatedLinks": [
-      {
-        "label": "年齢のバランスを見る",
-        "targetStep": 2,
-        "description": "高齢化との関係を見る"
-      },
-      {
-        "label": "子どもと学校を見る",
-        "targetStep": 4,
-        "description": "出生の先にある学校規模を見る"
-      }
-    ]
+    "mayorBands": false
   },
   {
     "id": "population_dynamics_social",
@@ -355,19 +336,7 @@
     "eventGroups": [
       "人口・世帯"
     ],
-    "mayorBands": false,
-    "relatedLinks": [
-      {
-        "label": "働く場を見る",
-        "targetStep": 5,
-        "description": "転入・転出の背景を考える"
-      },
-      {
-        "label": "暮らしの基盤を見る",
-        "targetStep": 7,
-        "description": "車社会との関係を見る"
-      }
-    ]
+    "mayorBands": false
   },
   {
     "id": "elementary_vs_junior_high",
@@ -424,13 +393,6 @@
         "year": 2020,
         "label": "学校規模縮小",
         "description": "小中学校ともに規模縮小が見えます。"
-      }
-    ],
-    "relatedLinks": [
-      {
-        "label": "教育費との関係を見る",
-        "targetSection": "young_population_vs_education_spending",
-        "description": "子ども人口と教育費を見る"
       }
     ]
   },
@@ -659,18 +621,6 @@
         "description": "社会情勢の変化が財政にも表れやすい時期です。"
       }
     ],
-    "relatedLinks": [
-      {
-        "label": "年齢のバランスを見る",
-        "targetStep": 2,
-        "description": "民生費の背景を見る"
-      },
-      {
-        "label": "子どもと学校を見る",
-        "targetStep": 3,
-        "description": "教育費の背景を見る"
-      }
-    ],
     "readingHints": [
       "民生費の増加は、高齢化だけでなく制度変更や支援対象の拡大にも影響されます。",
       "教育費や土木費は、人口変化だけでは説明できない場合があります。",
@@ -738,19 +688,68 @@
     "eventGroups": [
       "財政"
     ],
-    "mayorBands": true,
-    "relatedLinks": [
+    "mayorBands": true
+  },
+  {
+    "id": "finance_revenue_structure_ratio",
+    "group": "財政",
+    "title": "財政は何で支えられているか",
+    "description": "市税・地方税、地方交付税、国庫支出金、市債・地方債の構成比を表示しています。",
+    "highlight": "歳出が「何を支えるか」を示す一方で、歳入はそれを何で支えているかを示します。市税・地方税と交付税・国庫支出金・市債を並べることで、財政の支え方が見えます。",
+    "focusQuestion": "自治体の財政は、どの収入で支えられているのか？",
+    "readingHints": [
+      "市税・地方税は、人口規模や地域経済の動きと関係しやすい収入です。",
+      "地方交付税や国庫支出金は、自治体財政を制度的に支える収入です。",
+      "市債・地方債は、大型事業や投資の時期に増えることがあります。",
+      "名称は年度により「地方税/市税」「地方債/市債」と揺れるため、同じ系列として扱っています。"
+    ],
+    "insights": [
+      "市税・地方税の割合だけでなく、交付税や国庫支出金の比率を見ることで財政構造が見えます。",
+      "歳出側の目的別・性質別グラフと合わせると、支出と収入の両面から財政を読めます。"
+    ],
+    "note": "普通会計性質別歳入内訳をもとに作成しています。年度により「地方税/市税」「地方債/市債」の名称揺れがありますが、同じ系列として集計しています。",
+    "dataFile": "finance_revenue_structure.json",
+    "datasets": [
       {
-        "label": "歳出の内訳を見る",
-        "targetSection": "finance_expenditure_purpose_ratio",
-        "description": "目的別歳出と合わせて読む"
+        "label": "市税・地方税",
+        "field": "tax_ratio",
+        "axis": "y",
+        "unit": "%"
       },
       {
-        "label": "高齢者人口と民生費を見る",
-        "targetSection": "elderly_population_vs_welfare",
-        "description": "支える側の背景を見る"
+        "label": "地方交付税",
+        "field": "grant_ratio",
+        "axis": "y",
+        "unit": "%"
+      },
+      {
+        "label": "国庫支出金",
+        "field": "national_ratio",
+        "axis": "y",
+        "unit": "%"
+      },
+      {
+        "label": "市債・地方債",
+        "field": "bond_ratio",
+        "axis": "y",
+        "unit": "%"
       }
-    ]
+    ],
+    "axes": {
+      "y": {
+        "label": "構成比（%）",
+        "beginAtZero": false
+      }
+    },
+    "storyStep": 6,
+    "storyRole": "primary",
+    "priority": 3,
+    "timeline": true,
+    "eventGroups": [
+      "財政"
+    ],
+    "mayorBands": true,
+    "groupDescription": "行政サービスや投資規模の変化を見ます。"
   },
   {
     "id": "elderly_population_vs_welfare",
@@ -792,7 +791,7 @@
       }
     },
     "view": "detail",
-    "priority": 3,
+    "priority": 4,
     "timeline": false,
     "storyStep": 6,
     "storyRole": "detail",
@@ -812,18 +811,6 @@
         "year": 2015,
         "label": "民生費拡大",
         "description": "高齢化と福祉関連支出の関係を確認する時期です。"
-      }
-    ],
-    "relatedLinks": [
-      {
-        "label": "年齢のバランスを見る",
-        "targetStep": 2,
-        "description": "高齢者人口を確認する"
-      },
-      {
-        "label": "歳出の内訳を見る",
-        "targetSection": "finance_expenditure_purpose_ratio",
-        "description": "民生費の位置づけを見る"
       }
     ],
     "readingHints": [
@@ -873,7 +860,7 @@
       }
     },
     "view": "detail",
-    "priority": 4,
+    "priority": 5,
     "timeline": false,
     "storyStep": 6,
     "storyRole": "detail",
@@ -896,85 +883,11 @@
         "description": "子ども人口と教育費が単純に連動しないことを確認する時期です。"
       }
     ],
-    "relatedLinks": [
-      {
-        "label": "子どもと学校を見る",
-        "targetStep": 3,
-        "description": "学校規模の変化を見る"
-      },
-      {
-        "label": "年齢のバランスを見る",
-        "targetStep": 2,
-        "description": "15歳未満人口を見る"
-      }
-    ],
     "readingHints": [
       "子ども人口が減っても、教育費が同じように減るとは限りません。",
       "施設更新や教育環境整備など、固定的な支出も存在します。"
     ],
     "focusQuestion": "子どもが減っても、教育費は同じように減るのか？"
-  },
-  {
-    "id": "finance_expenditure_purpose_amount",
-    "group": "財政",
-    "groupDescription": "行政サービスや投資規模の変化を見ます。",
-    "title": "目的別歳出額を見る",
-    "description": "民生費・教育費・土木費・公債費などの歳出額を表示しています。",
-    "highlight": "構成比だけでなく、金額としてどの項目が大きくなっているかを確認できます。",
-    "insights": [
-      "構成比が横ばいでも、財政規模が拡大していれば金額は増加します。",
-      "比率と金額を分けて見ることで、財政構造の変化を読みやすくなります。"
-    ],
-    "note": "一般会計歳出当初予算額の目的別金額です。主要項目のみ表示しています。",
-    "dataFile": "finance_expenditure_purpose.json",
-    "datasets": [
-      {
-        "label": "民生費",
-        "field": "welfare_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "教育費",
-        "field": "education_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "土木費",
-        "field": "civil_engineering_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "公債費",
-        "field": "debt_amount",
-        "axis": "y",
-        "unit": "千円"
-      },
-      {
-        "label": "総務費",
-        "field": "general_affairs_amount",
-        "axis": "y",
-        "unit": "千円"
-      }
-    ],
-    "axes": {
-      "y": {
-        "label": "金額（千円）",
-        "beginAtZero": false
-      }
-    },
-    "view": "detail",
-    "priority": 5,
-    "timeline": false,
-    "storyStep": 6,
-    "storyRole": "detail",
-    "eventGroups": [
-      "財政"
-    ],
-    "mayorBands": true,
-    "focusQuestion": "金額で見ると、どの歳出が大きくなっているか？"
   },
   {
     "id": "finance_summary",
@@ -1033,55 +946,6 @@
     "focusQuestion": "歳入・歳出の規模そのものはどう変わったか？"
   },
   {
-    "id": "finance_per_person",
-    "group": "財政",
-    "groupDescription": "行政サービスや投資規模の変化を見ます。",
-    "title": "1人あたり歳出額を見る",
-    "description": "歳出決算額を人口で割った、1人あたり歳出額の推移です。",
-    "insights": [
-      "人口が横ばいまたは減少する中で財政規模が維持されると、1人あたり歳出額は増加します。",
-      "行政サービス規模と人口構造変化の関係を見ることができます。",
-      "人口減少社会における自治体運営の特徴を示す指標です。"
-    ],
-    "note": "歳出決算額 ÷ 人口で算出しています。",
-    "dataFile": "finance_summary.json",
-    "datasets": [
-      {
-        "label": "1人あたり歳出額",
-        "field": "expenditure_per_person",
-        "axis": "y",
-        "unit": "千円/人"
-      }
-    ],
-    "axes": {
-      "y": {
-        "label": "1人あたり歳出額（千円/人）",
-        "beginAtZero": false
-      }
-    },
-    "view": "detail",
-    "priority": 7,
-    "timeline": false,
-    "storyStep": 6,
-    "storyRole": "detail",
-    "eventGroups": [
-      "財政"
-    ],
-    "mayorBands": true,
-    "relatedLinks": [
-      {
-        "label": "暮らしの単位を見る",
-        "targetStep": 1,
-        "description": "人口・世帯の変化を見る"
-      }
-    ],
-    "readingHints": [
-      "人口減少下では、財政規模が維持されるだけでも1人あたり負担は上昇します。",
-      "行政サービスの効率化だけでは説明できない面もあります。"
-    ],
-    "focusQuestion": "人口規模で割ると、行政コストはどう見えるか？"
-  },
-  {
     "id": "finance_balance",
     "group": "財政",
     "groupDescription": "行政サービスや投資規模の変化を見ます。",
@@ -1108,7 +972,7 @@
       }
     },
     "view": "detail",
-    "priority": 8,
+    "priority": 7,
     "timeline": false,
     "storyStep": 6,
     "storyRole": "detail",
