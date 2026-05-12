@@ -286,3 +286,9 @@ python scripts/build.py --dataset industry_manufacturing --force-download
 - `global_chart_notes` を sections.json から削除
 - 「グラフの見方」は出典欄へ移動
 - ナビや「その他」章に出ないように変更
+
+## カード描画修正
+
+- narrativeCard を summaryCard に統一
+- summaryCard は通常グラフとして描画しない
+- ただしカードとして表示する

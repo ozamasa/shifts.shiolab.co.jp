@@ -1118,7 +1118,7 @@ async function main(){
   const timelineEvents=await loadJson('timeline_events.json').catch(()=>[]);
   const mayors=await loadJson('mayors.json').catch(()=>[]);
   const files=new Set();
-  sections.forEach(s=>{if(s.dataFile)files.add(s.dataFile);if(Array.isArray(s.sources))s.sources.forEach(src=>files.add(src.dataFile))});
+  sections.forEach(s=>{if(s.layout==='summaryCard')return;if(s.dataFile)files.add(s.dataFile);if(Array.isArray(s.sources))s.sources.forEach(src=>files.add(src.dataFile))});
   const entries=await Promise.all([...files].map(async f=>{const rows=await loadJson(f);if(Array.isArray(rows))rows.sort((a,b)=>a.year-b.year);return[f,rows]}));
   const dataMap=Object.fromEntries(entries);
 
